@@ -1,0 +1,86 @@
+<!-- Hui_WPF/Views/GenerateBurstView.xaml -->
+<UserControl x:Class="Hui_WPF.Views.GenerateBurstView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Hui_WPF.Views"
+             xmlns:models="clr-namespace:Hui_WPF.Models"
+             xmlns:converters="clr-namespace:Hui_WPF.Converters"
+             xmlns:vm="clr-namespace:Hui_WPF.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="600"
+             d:DataContext="{d:DesignInstance vm:GenerateBurstViewModel}">
+    <!-- Design-time DataContext -->
+
+    <UserControl.Resources>
+        <Thickness x:Key="ControlMargin">0,4,0,4</Thickness>
+        <Thickness x:Key="SectionMargin">0,10,0,5</Thickness>
+        <Style TargetType="TextBlock" x:Key="LabelStyle">
+            <Setter Property="Margin" Value="0,0,0,2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="InputTextBoxStyle">
+            <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="3,0"/>
+            <Setter Property="Height" Value="26"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="26"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="GroupName" Value="OutputFormatGroup_BurstView"/>
+            <!-- Unique GroupName -->
+            <Setter Property="Margin" Value="0,0,15,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="15">
+        <StackPanel>
+            <TextBlock Text="生成连拍 (多图合一)" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,15"/>
+            <TextBlock Text="将选定文件夹中的所有图片按文件名顺序合成为单个视频或动画 GIF 文件。此模式会忽略单独的缩放/平移效果设置。" TextWrapping="Wrap" Margin="0,0,0,10" Foreground="Gray"/>
+            <!-- Info text about source selection -->
+            <TextBlock Text="注意：请在主界面选择【单个】包含图片的文件夹作为源。" TextWrapping="Wrap" Margin="0,0,0,15" Foreground="OrangeRed" FontWeight="SemiBold"/>
+
+            <GroupBox Header="输出设置" Margin="0,5,0,10" Padding="10">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource LabelStyle}" Text="输出文件名 (不含扩展名):"/>
+                    <!-- Bind Text to ViewModel property -->
+                    <TextBox Style="{StaticResource InputTextBoxStyle}" x:Name="txtOutputFileName_BurstView" Text="{Binding OutputFileNameBase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Style="{StaticResource LabelStyle}" Text="输出帧率 (FPS):" Margin="{StaticResource SectionMargin}"/>
+                    <!-- Bind SelectedValue to ViewModel property -->
+                    <ComboBox x:Name="cmbBurstFps_BurstView" SelectedValue="{Binding Framerate, Mode=TwoWay}" SelectedValuePath="Tag" SelectedIndex="1">
+                        <!-- Default selection index -->
+                        <ComboBoxItem Content="10 FPS" Tag="10"/>
+                        <ComboBoxItem Content="15 FPS" Tag="15"/>
+                        <ComboBoxItem Content="20 FPS" Tag="20"/>
+                        <ComboBoxItem Content="24 FPS (电影感)" Tag="24"/>
+                        <ComboBoxItem Content="30 FPS (标准)" Tag="30"/>
+                        <ComboBoxItem Content="60 FPS (流畅)" Tag="60"/>
+                    </ComboBox>
+
+                    <TextBlock Style="{StaticResource LabelStyle}" Text="输出格式:" Margin="{StaticResource SectionMargin}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Bind IsChecked to ViewModel property using converter -->
+                        <RadioButton x:Name="rbFormatMov_BurstView" Content="MOV (H.265)" IsChecked="{Binding BurstOutputFormat, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:OutputFormat.MOV}, Mode=TwoWay}"/>
+                        <RadioButton x:Name="rbFormatMp4_BurstView" Content="MP4 (H.264)" IsChecked="{Binding BurstOutputFormat, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:OutputFormat.MP4}, Mode=TwoWay}"/>
+                        <RadioButton x:Name="rbFormatGif_BurstView" Content="GIF" IsChecked="{Binding BurstOutputFormat, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:OutputFormat.GIF}, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <TextBlock Text="GIF 文件可能会非常大，尤其对于高分辨率或多图像。" FontSize="10" Foreground="Gray" Margin="0,5,0,10"/>
+
+                </StackPanel>
+            </GroupBox>
+
+            <TextBlock Text="命名规则将使用共享设置或主窗口设置中的前缀/时间戳/计数器选项（如果启用）。" FontStyle="Italic" Foreground="Gray" Margin="0,15,0,0" TextWrapping="Wrap"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

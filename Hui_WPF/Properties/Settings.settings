@@ -1,0 +1,99 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Hui_WPF.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UserNamingParentDirText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HF</Value>
+    </Setting>
+    <Setting Name="UserNamingIncludeSubDir" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserNamingSubDirText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sF</Value>
+    </Setting>
+    <Setting Name="UserNamingIncludeFileName" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserNamingFileNameText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">File</Value>
+    </Setting>
+    <Setting Name="UserEnableTimestamp" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserTimestampFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">yyyyMMdd_HHmmss_</Value>
+    </Setting>
+    <Setting Name="UserEnableCounter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserCounterFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D3</Value>
+    </Setting>
+    <Setting Name="UserCounterStartValue" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="UserNamingUseSeparator" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserOverwriteOutput" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserNamingSeparator" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-</Value>
+    </Setting>
+    <Setting Name="UserOutputSubfolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Processed</Value>
+    </Setting>
+    <Setting Name="UserImageOutputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserVideoOutputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserBackupOutputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserGeneralBackupPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserExifToolTag" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ExifTool</Value>
+    </Setting>
+    <Setting Name="UserEnableBackup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserOutputImageFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">JPEG</Value>
+    </Setting>
+    <Setting Name="UserJpegQuality" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">90</Value>
+    </Setting>
+    <Setting Name="UserOriginalFileAction" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="GlobalNameOrder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">文件夹+时间戳+计数器</Value>
+    </Setting>
+    <Setting Name="UserUseTimestampSubfolderForMedia" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserLanguage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">zh</Value>
+    </Setting>
+    <Setting Name="UserGeneralRenamePrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserNamingIncludeFolder" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UserNamingFolderText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FD</Value>
+    </Setting>
+    <Setting Name="UserNamingIncludeParentDir" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="设置" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,305 @@
+<!-- Hui_WPF/Views/GenerateVideoView.xaml -->
+<UserControl x:Class="Hui_WPF.Views.GenerateVideoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Hui_WPF.Views"
+             xmlns:models="clr-namespace:Hui_WPF.Models"
+             xmlns:converters="clr-namespace:Hui_WPF.Converters"
+             xmlns:vm="clr-namespace:Hui_WPF.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="750"
+             d:DataContext="{d:DesignInstance vm:GenerateVideoViewModel}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+            <converters:PanDirectionToStringConverter x:Key="PanDirectionConverter"/>
+            <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" TrueIfNotNull="True"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+            <Thickness x:Key="ControlMargin">0,4,0,4</Thickness>
+            <Thickness x:Key="SectionMargin">0,10,0,5</Thickness>
+            <CornerRadius x:Key="ControlCornerRadius">3</CornerRadius>
+
+            <Style TargetType="Label">
+                <Setter Property="Margin" Value="0,0,0,2"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="Slider">
+                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="SliderValueStyle">
+                <Setter Property="Margin" Value="5,0,0,0"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="MinWidth" Value="35"/>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="PresetValueStyle" BasedOn="{StaticResource SliderValueStyle}">
+                <Setter Property="Foreground" Value="Gray"/>
+                <Setter Property="FontStyle" Value="Italic"/>
+                <Setter Property="Margin" Value="10,0,0,0"/>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="0,0,0,10"/>
+                <Setter Property="Width" Value="150"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Height" Value="26"/>
+            </Style>
+            <Style TargetType="RadioButton">
+                <Setter Property="GroupName" Value="EffectPresetGroup_VideoView"/>
+                <Setter Property="Margin" Value="5,4"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="rbPresetCustomStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.Custom}}"/>
+            </Style>
+            <Style x:Key="rbPresetZoomInCenterSlowStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.ZoomInCenterSlow}}"/>
+            </Style>
+            <Style x:Key="rbPresetZoomInCenterFastStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.ZoomInCenterFast}}"/>
+            </Style>
+            <Style x:Key="rbPresetZoomOutCenterStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.ZoomOutCenter}}"/>
+            </Style>
+            <Style x:Key="rbPresetPanRightStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.PanRight}}"/>
+            </Style>
+            <Style x:Key="rbPresetPanLeftStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.PanLeft}}"/>
+            </Style>
+            <Style x:Key="rbPresetPanUpStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.PanUp}}"/>
+            </Style>
+            <Style x:Key="rbPresetPanDownStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.PanDown}}"/>
+            </Style>
+            <Style x:Key="rbPresetZoomInPanTopRightStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.ZoomInPanTopRight}}"/>
+            </Style>
+            <Style x:Key="rbPresetZoomInPanBottomLeftStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.ZoomInPanBottomLeft}}"/>
+            </Style>
+            <Style x:Key="rbPresetIphoneStyleStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.IphoneStyle}}"/>
+            </Style>
+            <Style x:Key="rbPresetRandomPresetStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.RandomPreset}}"/>
+            </Style>
+            <Style x:Key="rbPresetCustomExpressionStyle_VV" TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="IsChecked" Value="{Binding CurrentSettings.EffectType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:ZoompanEffectType.CustomExpression}}"/>
+            </Style>
+
+            <Style TargetType="GroupBox" BasedOn="{StaticResource BaseGroupBoxStyle}">
+                <Setter Property="Padding" Value="10,8"/>
+                <Setter Property="Margin" Value="0,0,0,10"/>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="Margin" Value="0,0,0,10"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="AcceptsReturn" Value="False"/>
+                <Setter Property="TextWrapping" Value="NoWrap"/>
+                <Setter Property="Height" Value="26"/>
+                <Setter Property="Padding" Value="3,0"/>
+            </Style>
+            <Style x:Key="CustomExpressionTextBox_VV" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="FontFamily" Value="Consolas"/>
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="AcceptsReturn" Value="True"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="VerticalContentAlignment" Value="Top"/>
+            </Style>
+            <Style TargetType="CheckBox">
+                <Setter Property="Margin" Value="0,4,0,4"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="BaseButtonStyle_VV" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+                <Setter Property="Padding" Value="10,4"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="MinWidth" Value="80"/>
+                <Setter Property="MinHeight" Value="26"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource ControlCornerRadius}" SnapsToDevicePixels="True">
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#FFBEE6FD"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#FFC4E5F6"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="border" Property="Opacity" Value="0.6"/>
+                                    <Setter Property="Cursor" Value="Arrow"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="#FFDDDDDD"/>
+                <Setter Property="BorderBrush" Value="#FF707070"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="15">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="300"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" MinWidth="220"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <Label x:Name="lblEffectPreset_VV" Content="效果预设:" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                <Border BorderBrush="LightGray" BorderThickness="1" Padding="10,5" Margin="0,0,0,10" CornerRadius="{StaticResource ControlCornerRadius}">
+                    <Grid IsEnabled="{Binding AreStandardControlsEnabled, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <RadioButton Style="{StaticResource rbPresetCustomStyle_VV}" Grid.Row="0" Grid.Column="0" x:Name="rbPresetCustom_VV" Content="自定义 (Custom)"/>
+                        <RadioButton Style="{StaticResource rbPresetZoomInCenterSlowStyle_VV}" Grid.Row="0" Grid.Column="1" x:Name="rbPresetZoomInCenterSlow_VV" Content="中心放大(慢)"/>
+                        <RadioButton Style="{StaticResource rbPresetZoomInCenterFastStyle_VV}" Grid.Row="0" Grid.Column="2" x:Name="rbPresetZoomInCenterFast_VV" Content="中心放大(快)"/>
+                        <RadioButton Style="{StaticResource rbPresetZoomOutCenterStyle_VV}" Grid.Row="1" Grid.Column="0" x:Name="rbPresetZoomOutCenter_VV" Content="中心缩小"/>
+                        <RadioButton Style="{StaticResource rbPresetPanRightStyle_VV}" Grid.Row="1" Grid.Column="1" x:Name="rbPresetPanRight_VV" Content="向右平移"/>
+                        <RadioButton Style="{StaticResource rbPresetPanLeftStyle_VV}" Grid.Row="1" Grid.Column="2" x:Name="rbPresetPanLeft_VV" Content="向左平移"/>
+                        <RadioButton Style="{StaticResource rbPresetPanUpStyle_VV}" Grid.Row="2" Grid.Column="0" x:Name="rbPresetPanUp_VV" Content="向上平移"/>
+                        <RadioButton Style="{StaticResource rbPresetPanDownStyle_VV}" Grid.Row="2" Grid.Column="1" x:Name="rbPresetPanDown_VV" Content="向下平移"/>
+                        <RadioButton Style="{StaticResource rbPresetZoomInPanTopRightStyle_VV}" Grid.Row="2" Grid.Column="2" x:Name="rbPresetZoomInPanTopRight_VV" Content="放大+右上"/>
+                        <RadioButton Style="{StaticResource rbPresetZoomInPanBottomLeftStyle_VV}" Grid.Row="3" Grid.Column="0" x:Name="rbPresetZoomInPanBottomLeft_VV" Content="放大+左下"/>
+                        <RadioButton Style="{StaticResource rbPresetIphoneStyleStyle_VV}" Grid.Row="3" Grid.Column="1" x:Name="rbPresetIphoneStyleStyle_VV" Content="iPhone风格"/>
+                        <RadioButton Style="{StaticResource rbPresetRandomPresetStyle_VV}" Grid.Row="3" Grid.Column="2" x:Name="rbPresetRandomPreset_VV" Content="随机预设"/>
+                    </Grid>
+                </Border>
+                <RadioButton Style="{StaticResource rbPresetCustomExpressionStyle_VV}" x:Name="rbPresetCustomExpression_VV" Margin="5,0,0,10" Content="自定义 FFmpeg 表达式"/>
+
+                <GroupBox Header="自定义参数 (仅当预设为'Custom'时可编辑)" IsEnabled="{Binding IsCustomEffectSelected, Mode=OneWay}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="80"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="lblTargetZoom_VV" Grid.Row="0" Grid.Column="0" Content="缩放目标:"/>
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider Grid.Column="0" x:Name="sliderZoom_VV" Minimum="0.8" Maximum="2.5" Value="{Binding CurrentSettings.TargetZoom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TickFrequency="0.01" IsSnapToTickEnabled="True"/>
+                            <TextBlock Grid.Column="1" Style="{StaticResource SliderValueStyle}" x:Name="txtZoomValue_VV" Text="{Binding Value, ElementName=sliderZoom_VV, StringFormat={}{0:F2}x}"/>
+                        </Grid>
+                        <TextBlock Style="{StaticResource PresetValueStyle}" Grid.Row="0" Grid.Column="2" Text="{Binding CurrentSettings.TargetZoom, StringFormat=预设: {0:F2}x}" Visibility="{Binding IsCustomEffectSelected, Converter={StaticResource InverseBooleanToVisibilityConverter}, Mode=OneWay}"/>
+                        <Label x:Name="lblPanDirection_VV" Grid.Row="1" Grid.Column="0" Content="平移方向:" VerticalAlignment="Top" Margin="0,8,5,0"/>
+                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,5,0,0">
+                            <RadioButton x:Name="rbPanNone_VV" GroupName="PanGroup_VideoView" Content="无" IsChecked="{Binding CurrentSettings.PanDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:PanDirection.None}, Mode=TwoWay}"/>
+                            <RadioButton x:Name="rbPanUp_VV" GroupName="PanGroup_VideoView" Content="上" IsChecked="{Binding CurrentSettings.PanDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:PanDirection.Up}, Mode=TwoWay}"/>
+                            <RadioButton x:Name="rbPanDown_VV" GroupName="PanGroup_VideoView" Content="下" IsChecked="{Binding CurrentSettings.PanDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:PanDirection.Down}, Mode=TwoWay}"/>
+                            <RadioButton x:Name="rbPanLeft_VV" GroupName="PanGroup_VideoView" Content="左" IsChecked="{Binding CurrentSettings.PanDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:PanDirection.Left}, Mode=TwoWay}"/>
+                            <RadioButton x:Name="rbPanRight_VV" GroupName="PanGroup_VideoView" Content="右" IsChecked="{Binding CurrentSettings.PanDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:PanDirection.Right}, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource PresetValueStyle}" Grid.Row="1" Grid.Column="2" Text="{Binding CurrentSettings.PanDirection, StringFormat=预设: {0}, Converter={StaticResource PanDirectionConverter}}" VerticalAlignment="Center" Visibility="{Binding IsCustomEffectSelected, Converter={StaticResource InverseBooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    </Grid>
+                </GroupBox>
+
+                <CheckBox x:Name="chkJitter_VV" Content="启用轻微抖动/随机性" Margin="0,10,0,0" IsChecked="{Binding CurrentSettings.EnableJitter, Mode=TwoWay}" IsEnabled="{Binding AreStandardControlsEnabled, Mode=OneWay}"/>
+
+                <GroupBox Header="通用参数">
+                    <StackPanel>
+                        <StackPanel IsEnabled="{Binding AreStandardControlsEnabled, Mode=OneWay}">
+                            <Label x:Name="lblDuration_VV" Content="动画时长(秒):" Margin="{StaticResource SectionMargin}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" x:Name="sliderDuration_VV" Minimum="0.5" Maximum="10.0" Value="{Binding CurrentSettings.DurationSeconds, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                                <TextBlock Grid.Column="1" Style="{StaticResource SliderValueStyle}" x:Name="txtDurationValue_VV" Text="{Binding Value, ElementName=sliderDuration_VV, StringFormat={}{0:F1}s}" />
+                            </Grid>
+                        </StackPanel>
+                        <Label x:Name="lblFps_VV" Content="输出帧率 (FPS):" Margin="{StaticResource SectionMargin}"/>
+                        <ComboBox x:Name="cmbFps_VV" SelectedValue="{Binding CurrentSettings.Fps, Mode=TwoWay}" SelectedValuePath="Tag">
+                            <ComboBoxItem x:Name="cmbFps24_VV" Content="24 FPS (电影)" Tag="24"/>
+                            <ComboBoxItem x:Name="cmbFps30_VV" Content="30 FPS (标准)" Tag="30" IsSelected="True"/>
+                            <ComboBoxItem x:Name="cmbFps60_VV" Content="60 FPS (流畅)" Tag="60"/>
+                            <ComboBoxItem x:Name="cmbFps120_VV" Content="120 FPS (超流畅)" Tag="120"/>
+                        </ComboBox>
+                        <Label x:Name="lblBurstFps_VV" Content="连拍模式帧率:" Margin="{StaticResource SectionMargin}"/>
+                        <ComboBox x:Name="cmbBurstFps_VV" Width="100" SelectedValue="{Binding CurrentSettings.BurstFramerate, Mode=TwoWay}" SelectedValuePath="Tag">
+                            <ComboBoxItem Content="10" Tag="10"/>
+                            <ComboBoxItem Content="15" Tag="15" IsSelected="True"/>
+                            <ComboBoxItem Content="20" Tag="20"/>
+                            <ComboBoxItem Content="24" Tag="24"/>
+                            <ComboBoxItem Content="30" Tag="30"/>
+                        </ComboBox>
+                        <Label Content="输出格式:" Margin="{StaticResource SectionMargin}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton x:Name="rbFormatMov_VV" Content="MOV (H.265)" GroupName="OutputFormatGroup_VV" Margin="0,0,10,0" IsChecked="{Binding CurrentOutputFormat, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:OutputFormat.MOV}, Mode=TwoWay}"/>
+                            <RadioButton x:Name="rbFormatMp4_VV" Content="MP4 (H.264)" GroupName="OutputFormatGroup_VV" Margin="0,0,10,0" IsChecked="{Binding CurrentOutputFormat, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:OutputFormat.MP4}, Mode=TwoWay}"/>
+                            <RadioButton x:Name="rbFormatGif_VV" Content="GIF" GroupName="OutputFormatGroup_VV" Margin="0,0,10,0" IsChecked="{Binding CurrentOutputFormat, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:OutputFormat.GIF}, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <CheckBox x:Name="chkBurstMode_VV" Content="连拍模式 (多图合一)" Margin="0,15,0,0"/>
+                        <!--IsChecked="{Binding CurrentSettings.IsBurstMode, Mode=TwoWay}"-->
+                        <TextBlock Text="(连拍模式将禁用缩放平移效果)" FontSize="10" Foreground="Gray" Margin="20,0,0,5"/>
+                        <CheckBox x:Name="chkTimestampSubfolder_VV" Content="输出到时间戳子文件夹" Margin="0,10,0,0" IsChecked="{Binding UseTimestampSubfolderFromGlobal, Mode=TwoWay}"/>
+                        <TextBlock Text="(如果主窗口启用了时间戳且未使用自定义视频输出路径)" FontSize="10" Foreground="Gray" Margin="20,0,0,5"/>
+                        <Label Content="输出分辨率:" Margin="{StaticResource SectionMargin}"/>
+                        <ComboBox x:Name="cmbOutputResolution_VV" SelectedValue="{Binding SelectedResolutionTag, Mode=TwoWay}" SelectedValuePath="Tag" Width="Auto" IsEnabled="{Binding AreStandardControlsEnabled}">
+                            <ComboBoxItem Content="与源文件相同" Tag="source" IsSelected="True"/>
+                            <ComboBoxItem Content="1920x1080 (1080p)" Tag="1920x1080"/>
+                            <ComboBoxItem Content="1280x720 (720p)" Tag="1280x720"/>
+                            <ComboBoxItem Content="3840x2160 (4K UHD)" Tag="3840x2160"/>
+                        </ComboBox>
+                    </StackPanel>
+                </GroupBox>
+                <Label x:Name="lblCustomExpression_VV" Content="自定义 FFmpeg Zoompan 滤镜表达式:" Margin="0,15,0,0" FontWeight="SemiBold" IsEnabled="{Binding IsCustomExpressionSelected, Mode=OneWay}"/>
+                <TextBox x:Name="txtCustomExpression_VV" Style="{StaticResource CustomExpressionTextBox_VV}" Text="{Binding CurrentSettings.CustomFilterExpression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsCustomExpressionSelected, Mode=OneWay}"/>
+            </StackPanel>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" ShowsPreview="True"/>
+
+            <Border Grid.Column="2" BorderBrush="LightGray" BorderThickness="1,0,0,0" Margin="10,0,0,0" Padding="10,0,0,0">
+                <StackPanel Margin="5,0,0,0">
+                    <Label Content="自定义表达式预设" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <ListBox x:Name="lstCustomPresets_VV" MinHeight="150" MaxHeight="250" Margin="0,0,0,5" ItemsSource="{Binding SavedCustomPresets}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedCustomPreset, Mode=TwoWay}"/>
+                    <TextBox x:Name="txtNewPresetName_VV" Margin="0,5,0,5" Text="{Binding NewPresetName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="26" VerticalContentAlignment="Center" Padding="3,0"/>
+                    <Button Content="保存当前表达式为预设" Command="{Binding SavePresetCommand}" Margin="0,0,0,5" Style="{StaticResource BaseButtonStyle_VV}"/>
+                    <Button Content="删除选中预设" Command="{Binding DeletePresetCommand}" Margin="0,0,0,5" Style="{StaticResource BaseButtonStyle_VV}" Background="LightCoral" IsEnabled="{Binding SelectedCustomPreset, Converter={StaticResource NullToBooleanConverter}}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
